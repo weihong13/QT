@@ -29,7 +29,7 @@
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QListWidget" name="listWidget">
+      <widget class="QListWidget" name="showMsg_LW">
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
@@ -41,10 +41,10 @@
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QTextEdit" name="textEdit"/>
+           <widget class="QTextEdit" name="inputMsg_TE"/>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="sendMsg_PB">
             <property name="font">
              <font>
               <family>Agency FB</family>

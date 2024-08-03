@@ -82,6 +82,7 @@ void Friend::on_onlineUser_PB_clicked()
        Client::getInstance().sendPDU(pdu);
     }
 }
+
 // 发送刷新好友的请求
 void Friend::flushFriendReq()
 {
@@ -125,16 +126,7 @@ void Friend::on_delFriend_PB_clicked()
        qDebug()<<"取消";
    }
 
-
-
 }
-
-
-
-
-
-
-
 
 
 
@@ -148,19 +140,18 @@ void Friend::on_friend_LW_itemDoubleClicked(QListWidgetItem *item)
         // 测试
         qDebug()<<"on_friend_LW_itemDoubleClicked QMessageBox::Yes";
         // 要聊天，得到当前客户端的用户名和目标用户的用户名
-        QString strCurName =  Client::getInstance().getLoginName();
-        QString strTarName = item->text();
-        qDebug()<<"on_friend_LW_itemDoubleClicked strCurName"<<strCurName;
-        qDebug()<<"on_friend_LW_itemDoubleClicked strTarName"<<strTarName;
-
-        m_chat->m_curName = strCurName;
-        m_chat->m_tarName = strTarName;
+        m_chat->m_curName = Client::getInstance().getLoginName();
+        m_chat->m_tarName = item->text();
         // 如果该界面是隐藏的，则进行展示
         if(m_chat->isHidden())
         {
-           qDebug()<<"打开聊天界面";
-           m_chat->setWindowTitle(m_chat->m_tarName);
-           m_chat->show();
+            qDebug()<<"打开聊天界面";
+            // 设置聊天框的标题为 目标用户用户名
+            m_chat->setWindowTitle(m_chat->m_tarName);
+            // 显示与目标用户的历史聊天记录
+            m_chat->showChatHistory(m_chat->m_tarName);
+            // 显示聊天框
+            m_chat->show();
         }
     }
     else
@@ -170,24 +161,29 @@ void Friend::on_friend_LW_itemDoubleClicked(QListWidgetItem *item)
         return;
     }
 }
-
+// 选择好友，点击聊天按钮进行聊天
 void Friend::on_chat_PB_clicked()
 {
+    // 获取选中的内容
     QListWidgetItem* pItem =  ui->friend_LW->currentItem();
+    // 没有选中，报错
     if(!pItem)
     {
         QMessageBox::information(this,"好友聊天","请选择你要聊天的好友");
         return;
     }
-    QString strCurName =  Client::getInstance().getLoginName();
-    QString strTarName = pItem->text();
-    m_chat->m_curName = strCurName;
-    m_chat->m_tarName = strTarName;
+    // 获取 当前用户名 和 目标用户名
+    m_chat->m_curName = Client::getInstance().getLoginName();;
+    m_chat->m_tarName =  pItem->text();;
     // 如果该界面是隐藏的，则进行展示
     if(m_chat->isHidden())
     {
         qDebug()<<"打开聊天界面";
+        // 设置聊天框的标题为 目标用户用户名
         m_chat->setWindowTitle(m_chat->m_tarName);
+        // 显示与目标用户的历史聊天记录
+        m_chat->showChatHistory(m_chat->m_tarName);
+        // 显示聊天框
         m_chat->show();
     }
 }

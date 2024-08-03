@@ -32,10 +32,11 @@ void QNChatMessage::setText(QString text, QString time, QSize allSize, QNChatMes
     m_curTime = QDateTime::fromTime_t(time.toInt()).toString("hh:mm");
     m_allSize = allSize;
 
+
     this->update();
 }
 
-// 字体样式
+// 设置控件位置
 QSize QNChatMessage::fontRect(QString str)
 {
     m_msg = str;
@@ -77,7 +78,7 @@ QSize QNChatMessage::fontRect(QString str)
     return QSize(size.width(), hei);
 }
 
-
+// 设置文本的属性
 QSize QNChatMessage::getRealString(QString src)
 {
     QFontMetricsF fm(this->font());
@@ -121,7 +122,7 @@ QSize QNChatMessage::getRealString(QString src)
     return QSize(nMaxWidth+m_spaceWid, (nCount + 1) * m_lineHeight+2*m_lineHeight);
 }
 
-// 实现气泡
+// 使用QPainter绘制气泡
 void QNChatMessage::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);

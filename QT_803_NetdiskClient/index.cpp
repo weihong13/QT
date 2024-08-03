@@ -1,11 +1,13 @@
 #include "index.h"
 #include "ui_index.h"
+#include "client.h"
 
 Index::Index(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Index)
 {
     ui->setupUi(this);
+    this->setWindowTitle(Client::getInstance().getLoginName());
 }
 
 Index::~Index()

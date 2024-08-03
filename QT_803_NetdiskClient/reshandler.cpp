@@ -249,7 +249,7 @@ void ResHandler::flushFriend()
         // 挨个取出用户名
         memcpy(friendName,m_pdu->caMsg+i*32,32);
         // 测试
-        qDebug()<<"ResHandler showFriend  friendName"<<QString(friendName);
+        qDebug()<<"ResHandler flushFriend  friendName"<<QString(friendName);
 
 
         // 将取到的用户名存放到 nameList中
@@ -287,25 +287,24 @@ void ResHandler::deleteFriend()
     }
 }
 
-// 好友聊天的请求
+// 其他好友聊天的请求
 void ResHandler::friendChat()
 {
-    // 取出用户名，以及目标用户的态度
+    // 取出发来消息的用户，和发来的消息
     char curName[32] = {'\0'};
-    char tarName[32] = {'\0'};
-    char msg[m_pdu->uiMsgLen];
+    char msg[m_pdu->uiMsgLen+1];
     memcpy(curName,m_pdu->caData,32);
-    memcpy(tarName,m_pdu->caData+32,32);
     memcpy(msg,m_pdu->caMsg,m_pdu->uiMsgLen);
 
     // 测试--打印检测发送的内容
-    qDebug()<<"ResHandler addFriendAgree uiMsgType: "<<m_pdu->uiMsgType;
-    qDebug()<<"ResHandler addFriendAgree curName: "<<m_pdu->caData;
-    qDebug()<<"ResHandler addFriendAgree tarName: "<<m_pdu->caData+32;
-    qDebug()<<"ResHandler addFriendAgree ret : "<<m_pdu->caMsg;
-
+    qDebug()<<"ResHandler friendChat uiMsgType: "<<m_pdu->uiMsgType;
+    qDebug()<<"ResHandler friendChat curName: "<<m_pdu->caData;
+    qDebug()<<"ResHandler friendChat tarName: "<<m_pdu->caData+32;
+    qDebug()<<"ResHandler friendChat ret : "<<m_pdu->caMsg;
+    msg[m_pdu->uiMsgLen] = '\0';
+    QString strMsg = QString(msg);
     // 调用 响应好友聊天的函数
-    Index::getInstance().getFriend()->m_chat->friendChatRes(curName, msg);
+    Index::getInstance().getFriend()->m_chat->friendChatRes(curName, strMsg);
 
 
 }
