@@ -120,6 +120,11 @@ PDU *MyTcpSocket::handleReq(PDU *pdu)
         {
             return m_rh->flushFile();
         }
+        // 删除文件
+        case ENUM_MSG_TYPE_RMDIR_REQUEST:
+        {
+            return m_rh->rmdir();
+        }
 
         default:
             break;

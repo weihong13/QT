@@ -39,6 +39,9 @@ public:
     // 刷新文件
     PDU* flushFile();
 
+    // 删除文件
+    PDU* rmdir();
+
 
     PDU* m_pdu;
 

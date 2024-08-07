@@ -380,6 +380,35 @@ PDU *ReqHandler::flushFile()
     return resPdu;
 }
 
+// 删除文件
+PDU *ReqHandler::rmdir()
+{
+    // 获取文件路径
+    char* filePath = m_pdu->caMsg;
+    qDebug()<<"ReqHandler rmdir filePath: "<<filePath;
+    bool ret = false;
+
+    QFileInfo fileInfo(filePath);
+    // 判断是否为文件夹
+    if(fileInfo.isDir())
+    {
+
+        QDir dir(filePath);
+        // 删除目录下的所以文件
+        ret = dir.removeRecursively();
+    }
+
+    qDebug()<<"ReqHandler rmdir ret: "<<ret;
+    PDU* resPdu = initPDU(0);
+
+    resPdu->uiMsgType = ENUM_MSG_TYPE_RMDIR_RESPOND;
+
+    memcpy(resPdu->caData, &ret, sizeof (bool));
+
+    return resPdu;
+
+}
+
 
 
 
