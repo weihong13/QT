@@ -9,6 +9,7 @@ ResHandler::ResHandler(QObject *parent) : QObject(parent)
 
 }
 
+// 注册用户响应
 void ResHandler::regist()
 {
     // 将消息取出
@@ -26,6 +27,7 @@ void ResHandler::regist()
     }
 }
 
+// 登录响应
 void ResHandler::login(QString &loginName)
 {
     // 将消息取出
@@ -54,6 +56,7 @@ void ResHandler::login(QString &loginName)
     }
 }
 
+// 查找用户响应
 void ResHandler::findUser()
 {
     // 将消息取出
@@ -111,6 +114,7 @@ void ResHandler::findUser()
 
 }
 
+// 在线用户响应
 void ResHandler::onlineUser(QString &loginName)
 {
     // 获取在线用户的个数
@@ -230,7 +234,7 @@ void ResHandler::addFriendReq()
 }
 
 
-
+// 刷新好友响应
 void ResHandler::flushFriend()
 {
     // 获取在线用户的个数
@@ -255,6 +259,7 @@ void ResHandler::flushFriend()
     Index::getInstance().getFriend()->showFirend(friendList);
 }
 
+// 删除好友响应
 void ResHandler::deleteFriend()
 {
     // 取出响应结果
@@ -305,7 +310,7 @@ void ResHandler::friendChat()
 
 }
 
-// 创建文件夹
+// 创建文件夹响应
 void ResHandler::mkdir()
 {
     // 取出响应结果
@@ -326,7 +331,7 @@ void ResHandler::mkdir()
     }
 }
 
-// 刷新文件
+// 刷新文件响应
 void ResHandler::flushFile()
 {
     // 计算文件信息列表的大小
@@ -347,6 +352,25 @@ void ResHandler::flushFile()
     // 调用更新文件列表框的函数
     Index::getInstance().getFile()->updateFileList(fileList);
 
+}
+
+// 删除文件响应
+void ResHandler::rmdir()
+{
+
+    bool ret;
+    memcpy(&ret,m_pdu->caData,sizeof (bool));
+
+    if(ret)
+    {
+        QMessageBox::information(Index::getInstance().getFile(),"删除文件夹","删除文件夹成功");
+
+    }
+    else
+    {
+        QMessageBox::information(Index::getInstance().getFile(),"删除文件夹","删除文件夹失败");
+    }
+    Index::getInstance().getFile()->flushFileReq();
 }
 
 

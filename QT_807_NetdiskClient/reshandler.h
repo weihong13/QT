@@ -16,7 +16,7 @@ public:
     void login(QString& loginName);
     // 处理查找用户响应
     void findUser();
-    // 处理在线用户
+    // 处理在线用户响应
     void onlineUser(QString &loginName);
 
     // 处理添加好友的响应
@@ -26,20 +26,23 @@ public:
     void addFriendReq();
 
 
-    // 刷新好友
+    // 刷新好友响应
     void flushFriend();
 
-    // 删除好友
+    // 删除好友响应
     void  deleteFriend();
 
-    // 好友聊天请求
+    // 好友聊天请求响应
     void friendChat();
 
-    // 创建文件夹
+    // 创建文件夹响应
     void mkdir();
 
-    // 刷新文件
+    // 刷新文件响应
     void flushFile();
+
+    // 删除文件响应
+    void rmdir();
 
     PDU* m_pdu;
 signals:

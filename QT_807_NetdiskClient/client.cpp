@@ -229,6 +229,12 @@ void Client::handleRes(PDU *pdu)
             m_rh->flushFile();
             break;
         }
+        // 删除文件夹的响应
+        case ENUM_MSG_TYPE_RMDIR_RESPOND:
+        {
+            m_rh->rmdir();
+            break;
+        }
 
 
         default:

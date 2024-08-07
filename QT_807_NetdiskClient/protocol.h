@@ -41,6 +41,9 @@ enum ENUM_MSG_TYPE
     ENUM_MSG_TYPE_FLUSH_FILE_REQUEST, // 刷新文件夹的请求
     ENUM_MSG_TYPE_FLUSH_FILE_RESPOND, // 刷新文件夹的响应
 
+    ENUM_MSG_TYPE_RMDIR_REQUEST, // 删除文件夹的请求
+    ENUM_MSG_TYPE_RMDIR_RESPOND, // 删除文件夹的响应
+
 
     ENUM_MSG_TYPE_MAX=0x00ffffff, // 消息类型的最大值
 
