@@ -129,6 +129,10 @@ PDU *MyTcpSocket::handleReq(PDU *pdu)
         {
             return m_rh->rmFile();
         }
+        case ENUM_MSG_TYPE_RENAME_FILE_REQUEST:
+        {
+            return m_rh->renameFile();
+        }
 
         default:
             break;

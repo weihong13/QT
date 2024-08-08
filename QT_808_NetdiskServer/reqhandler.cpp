@@ -455,6 +455,35 @@ PDU *ReqHandler::rmFile()
     return resPdu;
 }
 
+// 重命名文件
+PDU *ReqHandler::renameFile()
+{
+    // 读出旧的文件名与新的文件名
+    char oldName[32] = {'\0'};
+    char newName[32] = {'\0'};
+    memcpy(oldName,m_pdu->caData,32);
+    memcpy(newName,m_pdu->caData+32,32);
+    // 转为字符串格式
+    QString strOldName = QString(oldName);
+    QString strNewName = QString(newName);
+    // 读出当前路径
+    QString filePath = m_pdu->caMsg;
+
+    // 拼接路径
+    QString strOldPath = QString("%1/%2").arg(filePath).arg(strOldName);
+    QString strNewPath = QString("%1/%2").arg(filePath).arg(strNewName);
+    // 重命名，得到返回值
+    QDir dir;
+    bool ret = dir.rename(strOldPath,strNewPath);
+    // 构建响应pdu
+    PDU* resPdu = initPDU(0);
+    resPdu->uiMsgType = ENUM_MSG_TYPE_RENAME_FILE_RESPOND;
+    memcpy(resPdu->caData,&ret,sizeof (bool));
+
+    return resPdu;
+
+}
+
 
 
 

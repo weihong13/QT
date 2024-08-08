@@ -45,6 +45,9 @@ public:
     // 删除文件
     PDU* rmFile();
 
+    // 重命名文件
+    PDU* renameFile();
+
 
     PDU* m_pdu;
 
