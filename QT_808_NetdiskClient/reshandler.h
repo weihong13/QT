@@ -47,6 +47,9 @@ public:
     // 删除文件响应
     void rmFile();
 
+    // 重命名文件
+    void renameFile();
+
     PDU* m_pdu;
 signals:
 

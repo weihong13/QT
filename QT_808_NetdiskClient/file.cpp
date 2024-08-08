@@ -217,3 +217,90 @@ void File::on_rmFile_PB_clicked()
     Client::getInstance().sendPDU(pdu);
 
 }
+
+// 双击进入下级目录
+void File::on_file_LW_itemDoubleClicked(QListWidgetItem *item)
+{
+    // 取到选择的文件名，判断是否为文件夹，如果是文件夹，则刷新列表
+    QString strFileName = item->text();
+    // 判断是否为文件夹
+    foreach(FileInfo* pFileInfo,m_fileInfoList)
+    {
+        if(pFileInfo->caFileName == strFileName && pFileInfo->uiFileType != ENUM_FILE_TYPE_FOLDER)
+        {
+
+            return;
+        }
+    }
+    // 更新当前路径
+    m_curPath = QString("%1/%2").arg(m_curPath).arg(strFileName);
+
+    // 发送刷新请求
+    flushFileReq();
+
+
+}
+
+// 返回上一级目录
+void File::on_return_PB_clicked()
+{
+    // 判断当前是否为根目录（用户的目录，而不是服务器根目录）
+    // 删除最后一级的目录（根据 / 删除），得到上一级的路径
+    // 发送刷新目录请求
+
+    // 判断当前目录是否为用户的根目录
+    if(m_curPath == m_rootPath)
+    {
+        QMessageBox::warning(this,"返回上一级","返回失败：当前目录已是根目录");
+        return;
+    }
+
+    int index = m_curPath.lastIndexOf('/');
+    m_curPath.remove(index,m_curPath.size()-index);
+
+    // 发送刷新请求
+    flushFileReq();
+
+
+}
+
+// 重命名文件
+void File::on_renameFile_PB_clicked()
+{
+    // 选中文件，点击重命名，弹出输入框，输入新的文件名
+
+    // 获取当前选中的列表框
+    QListWidgetItem* pItem = ui->file_LW->currentItem();
+    // 没选择文件夹
+    if(pItem == NULL)
+    {
+        QMessageBox::information(this,"重命名","请选择要重命名的文件");
+        return;
+    }
+    // 获取选中的文件名
+    QString strOldFileName = pItem->text();
+
+    // 输入框 获取 新的文件名
+    QString strNewFileName = QInputDialog::getText(this,"重命名","新文件名：");
+    // 合法性判断
+    if(strOldFileName == strNewFileName)
+    {
+        QMessageBox::critical(this,"重命名文件","新文件名不能与旧文件一致");
+        return;
+    }
+    if(strNewFileName.isEmpty() ||strNewFileName.toStdString().size()>32)
+    {
+        QMessageBox::critical(this,"重命名文件","文件名称长度非法");
+        return;
+    }
+
+    // 将新旧的文件名存放到pdu中
+    PDU* pdu = initPDU(m_curPath.toStdString().size()+1);
+    pdu->uiMsgType = ENUM_MSG_TYPE_RENAME_FILE_REQUEST;
+    memcpy(pdu->caData,strOldFileName.toStdString().c_str(),32);
+    memcpy(pdu->caData+32,strNewFileName.toStdString().c_str(),32);
+    memcpy(pdu->caMsg,m_curPath.toStdString().c_str(),m_curPath.toStdString().size());
+    // 发送重命名请求到服务器
+    Client::getInstance().sendPDU(pdu);
+
+}

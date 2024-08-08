@@ -389,6 +389,24 @@ void ResHandler::rmFile()
     Index::getInstance().getFile()->flushFileReq();
 }
 
+// 重命名文件
+void ResHandler::renameFile()
+{
+    // 取出重命名文件响应的返回值
+    bool ret;
+    memcpy(&ret,m_pdu->caData,sizeof (bool));
+
+    if(ret)
+    {
+         QMessageBox::information(Index::getInstance().getFile(),"重命名文件","重命名文件成功");
+    }
+    else
+    {
+        QMessageBox::information(Index::getInstance().getFile(),"重命名文件","重命名文件失败");
+    }
+    Index::getInstance().getFile()->flushFileReq();
+}
+
 
 
 

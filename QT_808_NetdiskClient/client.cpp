@@ -241,6 +241,13 @@ void Client::handleRes(PDU *pdu)
             m_rh->rmFile();
             break;
         }
+        // 重命名文件的响应
+        case ENUM_MSG_TYPE_RENAME_FILE_RESPOND:
+        {
+            m_rh->renameFile();
+            break;
+        }
+
 
 
         default:
